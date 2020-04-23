@@ -1,0 +1,41 @@
+version: '3.4'
+
+services:
+  publisherapplication:
+    image: ${DOCKER_REGISTRY-}publisherapplication
+    build:
+      context: .
+      dockerfile: PublisherApplication/Dockerfile
+    networks: 
+      - app_net
+
+  workerprocess:
+    image: ${DOCKER_REGISTRY-}workerprocess
+    build:
+      context: .
+      dockerfile: WorkerProcess/Dockerfile
+    networks: 
+      - app_net
+
+
+  message_broker:
+    container_name: "rabbitmq_teste"
+    image: rabbitmq:3.8-management
+    environment:
+       - RABBITMQ_DEFAULT_USER=user 
+       - RABBITMQ_DEFAULT_PASS=password
+    ports:
+       - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks: 
+      - app_net
+
+
+
+volumes: 
+  rabbitmq_data:
+
+networks: 
+  app_net:
+    driver: bridge
