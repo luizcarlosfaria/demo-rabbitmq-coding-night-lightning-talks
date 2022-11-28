@@ -54,8 +54,7 @@ namespace WorkerProcess
                 }
                 catch (Exception)
                 {
-                    rabbitMQmodel.BasicNack(ea.DeliveryTag, false, true);
-                    throw;
+                    rabbitMQmodel.BasicNack(ea.DeliveryTag, false, true);                    
                 }
 
             };
